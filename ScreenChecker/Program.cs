@@ -10,7 +10,7 @@ var targetPath = ap.ImagePath;
 var screen = ScreenCheck.CaptureScreen();
 
 //  テンプレートマッチ
-if(!string.IsNullOrEmpty(ap.ImagePath))
+if (!string.IsNullOrEmpty(ap.ImagePath))
 {
     var result = ScreenCheck.LocateOnScreen(screen, targetPath, ap.Threshold);
 
@@ -30,7 +30,7 @@ if(!string.IsNullOrEmpty(ap.ImagePath))
     }
 
     //  結果を出力
-    if(ap.ShowResult)
+    if (ap.ShowResult)
     {
         string json = JsonSerializer.Serialize(result, new JsonSerializerOptions()
         {
@@ -38,6 +38,8 @@ if(!string.IsNullOrEmpty(ap.ImagePath))
         });
         Console.WriteLine(json);
     }
+    Environment.Exit(result.IsFound ? 0 : -1);
 }
 
+Environment.Exit(-1);
 

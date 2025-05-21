@@ -48,8 +48,11 @@ namespace ScreenChecker
                     });
                     Console.WriteLine(json);
                 }
+
+                Environment.Exit(result.IsFound ? 0 : -1);
             }
 
+            Environment.Exit(-1);
         }
     }
 }
