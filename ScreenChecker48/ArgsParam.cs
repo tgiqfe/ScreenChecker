@@ -10,7 +10,9 @@ namespace ScreenChecker
     {
         public string ImagePath { get; set; }
         public string OutputPath { get; set; }
-        public double Threshold { get; set; }
+        public double Threshold { get; set; } = 0.95;
+        public bool Click { get; set; }
+        public bool ShowResult { get; set; }
 
         public ArgsParam(string[] args)
         {
@@ -47,6 +49,16 @@ namespace ScreenChecker
                             }
                             i++;
                         }
+                        break;
+                    case "/c":
+                    case "-c":
+                    case "--click":
+                        this.Click = true;
+                        break;
+                    case "/s":
+                    case "-s":
+                    case "--show":
+                        this.ShowResult = true;
                         break;
                 }
             }
