@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenChecker48", "ScreenCh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCheckerDll", "ScreenCheckerDll\ScreenCheckerDll.csproj", "{C1D9769E-D2C5-49A3-BF25-F30D39139F44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenChecker48Dll", "ScreenChecker48Dll\ScreenChecker48Dll.csproj", "{A1B3C778-05A7-4B01-A18D-0757C0695F08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCheckerDll48", "ScreenCheckerDll48\ScreenCheckerDll48.csproj", "{A1B3C778-05A7-4B01-A18D-0757C0695F08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -95,19 +95,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgsParam.cs" />
-    <Compile Include="MouseControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScreenCheck.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScreenChecker48Dll\ScreenChecker48Dll.csproj">
+    <ProjectReference Include="..\ScreenChecker48Dll\ScreenCheckerDll48.csproj">
       <Project>{a1b3c778-05a7-4b01-a18d-0757c0695f08}</Project>
-      <Name>ScreenChecker48Dll</Name>
+      <Name>ScreenCheckerDll48</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
