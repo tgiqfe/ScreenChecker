@@ -4,12 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
-using System.Threading;
 
 namespace ScreenChecker
 {
-    internal class MouseControl
+    public class MouseControl
     {
         [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern void SetCursorPos(int x, int y);

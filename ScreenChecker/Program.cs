@@ -1,6 +1,5 @@
 ﻿using ScreenChecker;
 using System.Text.Json;
-using static ScreenChecker.ScreenCheck;
 
 ArgsParam ap = new ArgsParam(args);
 
@@ -38,7 +37,7 @@ if (!string.IsNullOrEmpty(ap.ImagePath))
         });
         Console.WriteLine(json);
     }
-    Environment.Exit(result.IsFound ? 0 : -1);
+    Environment.Exit(result.IsFound ? 0 : 1);
 }
 
 Environment.Exit(-1);

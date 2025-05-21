@@ -11,8 +11,7 @@ using OpenCvSharp.Extensions;
 
 namespace ScreenChecker
 {
-    /*
-    internal class ScreenCheck
+    public class ScreenCheck
     {
         #region unmanaged
 
@@ -57,7 +56,7 @@ namespace ScreenChecker
         #endregion
         #region Result object
 
-        internal class ImageCheckResult
+        public class ImageCheckResult
         {
             public bool IsFound { get; set; }
             public string ImagePath { get; set; }
@@ -140,5 +139,4 @@ namespace ScreenChecker
             screen.ImWrite(path);
         }
     }
-    */
 }
