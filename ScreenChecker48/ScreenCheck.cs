@@ -13,6 +13,7 @@ using System.Windows.Forms;
 
 namespace ScreenChecker
 {
+    /*
     internal class ScreenCheck
     {
         #region unmanaged
@@ -141,4 +142,5 @@ namespace ScreenChecker
             screen.ImWrite(path);
         }
     }
+    */
 }

@@ -9,6 +9,7 @@ using System.Threading;
 
 namespace ScreenChecker
 {
+    /*
     internal class MouseControl
     {
         [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall)]
@@ -57,4 +58,5 @@ namespace ScreenChecker
             DoubleClick(point.X, point.Y);
         }
     }
+    */
 }
