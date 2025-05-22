@@ -31,7 +31,7 @@ namespace ScreenChecker
                 }
 
                 //  マッチした場所をクリック
-                if (ap.Click)
+                if (ap.Click && result.IsFound)
                 {
                     var point = new Point(
                         result.Location.X + result.Size.Width / 2,
