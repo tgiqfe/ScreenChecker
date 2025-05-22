@@ -31,7 +31,7 @@ namespace ScreenChecker
                 }
 
                 //  マッチした場所をクリック
-                if (ap.Click)
+                if (ap.Click && result.IsFound)
                 {
                     var point = new Point(
                         result.Location.X + result.Size.Width / 2,
@@ -48,8 +48,11 @@ namespace ScreenChecker
                     });
                     Console.WriteLine(json);
                 }
+
+                Environment.Exit(result.IsFound ? 0 : 1);
             }
 
+            Environment.Exit(-1);
         }
     }
 }

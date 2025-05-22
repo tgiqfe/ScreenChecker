@@ -4,11 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
 namespace ScreenChecker
 {
-    internal class MouseControl
+    public class MouseControl
     {
         [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern void SetCursorPos(int x, int y);
@@ -41,5 +40,19 @@ namespace ScreenChecker
             Click(point.X, point.Y);
         }
 
+        public static void DoubleClick(int x, int y)
+        {
+            SetCursorPos(x, y);
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+            Thread.Sleep(50);
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+        }
+
+        public static void DoubleClick(Point point)
+        {
+            DoubleClick(point.X, point.Y);
+        }
     }
 }

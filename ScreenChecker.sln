@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenChecker", "ScreenChecker\ScreenChecker.csproj", "{194539D9-CA26-49A7-9F2A-30D17FA567BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenChecker48", "ScreenChecker48\ScreenChecker48.csproj", "{E0D32D86-EC07-42E9-A76C-8530222E2A08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCheckerDll", "ScreenCheckerDll\ScreenCheckerDll.csproj", "{C1D9769E-D2C5-49A3-BF25-F30D39139F44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCheckerDll48", "ScreenCheckerDll48\ScreenCheckerDll48.csproj", "{A1B3C778-05A7-4B01-A18D-0757C0695F08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{E0D32D86-EC07-42E9-A76C-8530222E2A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0D32D86-EC07-42E9-A76C-8530222E2A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0D32D86-EC07-42E9-A76C-8530222E2A08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D9769E-D2C5-49A3-BF25-F30D39139F44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D9769E-D2C5-49A3-BF25-F30D39139F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D9769E-D2C5-49A3-BF25-F30D39139F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D9769E-D2C5-49A3-BF25-F30D39139F44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B3C778-05A7-4B01-A18D-0757C0695F08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B3C778-05A7-4B01-A18D-0757C0695F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B3C778-05A7-4B01-A18D-0757C0695F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B3C778-05A7-4B01-A18D-0757C0695F08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

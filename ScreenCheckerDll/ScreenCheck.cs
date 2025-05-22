@@ -8,12 +8,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using OpenCvSharp.Extensions;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace ScreenChecker
 {
-    internal class ScreenCheck
+    public class ScreenCheck
     {
         #region unmanaged
 
@@ -21,21 +19,21 @@ namespace ScreenChecker
         internal const int CAPTUREBLT = 1073741824;
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr GetDC(IntPtr hwnd);
+        internal static extern nint GetDC(nint hwnd);
 
         [DllImport("gdi32.dll")]
-        internal static extern int BitBlt(IntPtr hDeskDC,
+        internal static extern int BitBlt(nint hDeskDC,
             int x,
             int y,
             int nWidth,
             int nHeight,
-            IntPtr hSrcDC,
+            nint hSrcDC,
             int xSrc,
             int ySrc,
             int dwRop);
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr ReleaseDC(IntPtr hwnd, IntPtr hDC);
+        internal static extern nint ReleaseDC(nint hwnd, nint hDC);
 
         [StructLayout(LayoutKind.Sequential)]
         internal struct RECT
@@ -47,18 +45,18 @@ namespace ScreenChecker
         }
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr GetWindowDC(IntPtr hwnd);
+        internal static extern nint GetWindowDC(nint hwnd);
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr GetForegroundWindow();
+        internal static extern nint GetForegroundWindow();
 
         [DllImport("user32.dll")]
-        internal static extern int GetWindowRect(IntPtr hwnd, ref RECT lpRect);
+        internal static extern int GetWindowRect(nint hwnd, ref RECT lpRect);
 
         #endregion
         #region Result object
 
-        internal class ImageCheckResult
+        public class ImageCheckResult
         {
             public bool IsFound { get; set; }
             public string ImagePath { get; set; }
@@ -74,15 +72,15 @@ namespace ScreenChecker
 
         public static Mat CaptureScreen()
         {
-            IntPtr desktopDC = GetDC(IntPtr.Zero);
+            nint desktopDC = GetDC(nint.Zero);
             using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppRgb))
             using (Graphics g = Graphics.FromImage(screenCapture))
             {
-                IntPtr srcDC = g.GetHdc();
+                nint srcDC = g.GetHdc();
                 BitBlt(srcDC, 0, 0, screenCapture.Width, screenCapture.Height, desktopDC, 0, 0, SRCCOPY);
                 g.ReleaseHdc(srcDC);
-                ReleaseDC(IntPtr.Zero, srcDC);
-                ReleaseDC(IntPtr.Zero, desktopDC);
+                ReleaseDC(nint.Zero, srcDC);
+                ReleaseDC(nint.Zero, desktopDC);
 
                 return screenCapture.ToMat();
             }
@@ -90,10 +88,10 @@ namespace ScreenChecker
 
         public static ImageCheckResult LocateOnScreen(Mat screen, string imagePath, double threshold)
         {
-            ImageCheckResult ret = new ImageCheckResult();
+            ImageCheckResult ret = new();
 
             using (Mat template = new Mat(imagePath, ImreadModes.Unchanged))
-            using (Mat result = new Mat())
+            using (Mat result = new())
             {
                 Console.WriteLine(imagePath + ": " + template.Type());
 
