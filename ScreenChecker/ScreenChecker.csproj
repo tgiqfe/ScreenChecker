@@ -81,20 +81,23 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cmdlet\FindLocateOnScreen.cs" />
-    <Compile Include="cmdlet\InvokeKeyboardKey.cs" />
-    <Compile Include="cmdlet\InvokeMouseClick.cs" />
-    <Compile Include="cmdlet\InvokeMouseDragDrop.cs" />
-    <Compile Include="cmdlet\InvokeMouseMove.cs" />
-    <Compile Include="lib\Keyboard\KeyboardControl.cs" />
-    <Compile Include="lib\Keyboard\KeySender.cs" />
-    <Compile Include="lib\Keyboard\KeySendItem.cs" />
-    <Compile Include="lib\Keyboard\VirtualKey.cs" />
-    <Compile Include="lib\Mouse\MouseAction.cs" />
-    <Compile Include="lib\Mouse\MouseControl.cs" />
-    <Compile Include="lib\NativeMethods.cs" />
-    <Compile Include="lib\Screen\ImageCheckResult.cs" />
-    <Compile Include="lib\Screen\ScreenCheck.cs" />
+    <Compile Include="Cmdlet\CloseFolderWindow.cs" />
+    <Compile Include="Cmdlet\FindLocateOnScreen.cs" />
+    <Compile Include="Cmdlet\InvokeKeyboardKey.cs" />
+    <Compile Include="Cmdlet\InvokeMouseClick.cs" />
+    <Compile Include="Cmdlet\InvokeMouseDragDrop.cs" />
+    <Compile Include="Cmdlet\InvokeMouseMove.cs" />
+    <Compile Include="Cmdlet\OpenFolderWindow.cs" />
+    <Compile Include="Lib\Folder\FolderControl.cs" />
+    <Compile Include="Lib\Keyboard\KeyboardControl.cs" />
+    <Compile Include="Lib\Keyboard\KeySender.cs" />
+    <Compile Include="Lib\Keyboard\KeySendItem.cs" />
+    <Compile Include="Lib\Keyboard\VirtualKey.cs" />
+    <Compile Include="Lib\Mouse\MouseAction.cs" />
+    <Compile Include="Lib\Mouse\MouseControl.cs" />
+    <Compile Include="Lib\NativeMethods.cs" />
+    <Compile Include="Lib\Screen\ImageCheckResult.cs" />
+    <Compile Include="Lib\Screen\ScreenCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
