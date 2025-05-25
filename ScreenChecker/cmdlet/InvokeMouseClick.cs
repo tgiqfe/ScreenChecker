@@ -28,6 +28,9 @@ namespace ScreenChecker.Cmdlet
         public int WheelDelta { get; set; }
 
         [Parameter]
+        public SwitchParameter Slow { get; set; }
+
+        [Parameter]
         public int Delay { get; set; } = 0;
 
         protected override void ProcessRecord()
@@ -36,7 +39,7 @@ namespace ScreenChecker.Cmdlet
 
             if (this.X != null && this.Y != null)
             {
-                MouseControl.SendMouseMove(this.X.Value, this.Y.Value, this.ScreenNumber);
+                MouseControl.SendMouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Slow);
             }
 
             switch (this.Action)
