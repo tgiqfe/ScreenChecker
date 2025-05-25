@@ -1,0 +1,72 @@
+
+# モジュール読み込み
+# (絶対パス指定でも可。.dllファイルを直接指定でお願いします。パッケージフォルダー指定はまだ無理です)
+Import-Module ".\ScreenChecker.dll"
+
+# テンプレートマッチ
+$imagePath = "D:\Test\Image001.jpg"
+$outputPath = "D:\Test\Output001.jpg"
+$threshold = 0.99
+Find-LocateOnScreen `
+  -ImagePath $imagePath `
+  -Confidence $threshold `
+  -OutputPath $outputPath
+
+# マッチした画像の場所に移動
+Find-LocateOnScreen `
+  -ImagePath $imagePath `
+  -Confidence $threshold `
+  -OutputPath $outputPath `
+  -Move
+
+# マッチした画像の場所をクリック
+Find-LocateOnScreen `
+  -ImagePath $imagePath `
+  -Confidence $threshold `
+  -OutputPath $outputPath `
+  -Click
+
+# マッチした画像の場所をダブルクリック
+Find-LocateOnScreen `
+  -ImagePath $imagePath `
+  -Confidence $threshold `
+  -OutputPath $outputPath `
+  -DoubleClick
+
+# マッチした画像の場所に移動(orクリックorダブルクリック)するとき、
+# ゆっくり移動
+Find-LocateOnScreen `
+  -ImagePath $imagePath `
+  -Confidence $threshold `
+  -OutputPath $outputPath `
+  -Move `
+  -Slow
+
+
+# 指定した座標にマウスを移動
+# ※5秒待ってから、X:500, Y:500の位置に、ゆっくり移動。
+Invoke-MouseMove -X 500 -Y 500 -Slow -Delay 5000
+
+# 現在のマウスの位置でクリック
+Invoke-MouseClick -Action Click
+
+# 現在のマウスの位置でダブルクリック
+Invoke-MouseClick -Action DoubleClick
+
+# 現在のマウスの位置で右クリック
+Invoke-MouseClick -Action RightClick
+
+# 現在のマウスの位置でホイールを上に動かす。
+# ※単位はPixelと思われるが、あまり詳しく調べていない
+Invoke-MouseClick -Action Wheel -WheelDelta 100
+
+# 現在のマウスの位置でホイールを下方向に動かす。
+Invoke-MouseClick -Action Wheel -WheelDelta -100
+
+# 指定の座標から別の座標まで、マウスでドラッグ&ドロップ
+Invoke-MouseDragDrop -StartX 200 -StartY 20 -EndX 1200 -EndY 50 -Slow
+
+# 現在の座標から別の座標まで、マウスでドラッグ&ドロップ
+Invoke-MouseDragDrop -EndX 1200 -EndY 50 -Slow
+
+
