@@ -141,5 +141,34 @@ namespace ScreenChecker.Lib
         internal static extern int GetWindowRect(IntPtr hwnd, ref RECT lpRect);
 
         #endregion
+        #region for Open/Close folder
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        internal static extern int ShellExecute(IntPtr hwnd, string hWnd, string lpOperation, string lpParameters, string lpDirectory, int nShowCmd);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+        internal static extern int SHOpenFolderAndSelectItems(
+            IntPtr pidlFolder,
+            uint cidl,
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] apidl,
+            uint dwFlags);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+        internal static extern int SHParseDisplayName(
+            [MarshalAs(UnmanagedType.LPWStr)] string pszName,
+            IntPtr pdc,
+            out IntPtr ppidl,
+            uint sfgaoIn,
+            out uint psfgaoOut);
+
+        [DllImport("ole32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+        internal static extern void CoTaskMemFree(IntPtr pv);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+        internal const uint WM_CLOSE = 0x0010;
+
+        #endregion
     }
 }
