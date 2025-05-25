@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下を通して制御されます
 // 制御されます。アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("ScreenChecker48Dll")]
+[assembly: AssemblyTitle("ScreenChecker")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ScreenChecker48Dll")]
+[assembly: AssemblyProduct("ScreenChecker")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // このプロジェクトが COM に公開される場合、次の GUID が typelib の ID になります
-[assembly: Guid("a1b3c778-05a7-4b01-a18d-0757c0695f08")]
+[assembly: Guid("516bc9f4-9006-4700-92f1-be007f3d96a3")]
 
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      ビルド番号
 //      リビジョン
 //
-[assembly: AssemblyVersion("0.1.0.3")]
-[assembly: AssemblyFileVersion("0.1.0.3")]
+[assembly: AssemblyVersion("0.1.0.4")]
+[assembly: AssemblyFileVersion("0.1.0.4")]
