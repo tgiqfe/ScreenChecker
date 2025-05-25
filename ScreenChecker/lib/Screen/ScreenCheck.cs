@@ -1,81 +1,27 @@
 ﻿using OpenCvSharp;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using OpenCvSharp.Extensions;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using static ScreenChecker.Lib.NativeMethods;
+using System.Drawing.Imaging;
+using OpenCvSharp.Extensions;
 
-namespace ScreenChecker
+namespace ScreenChecker.Lib
 {
-    public class ScreenCheck
+    internal class ScreenCheck
     {
-        #region unmanaged
-
-        internal const int SRCCOPY = 13369376;
-        internal const int CAPTUREBLT = 1073741824;
-
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetDC(IntPtr hwnd);
-
-        [DllImport("gdi32.dll")]
-        internal static extern int BitBlt(IntPtr hDeskDC,
-            int x,
-            int y,
-            int nWidth,
-            int nHeight,
-            IntPtr hSrcDC,
-            int xSrc,
-            int ySrc,
-            int dwRop);
-
-        [DllImport("user32.dll")]
-        internal static extern IntPtr ReleaseDC(IntPtr hwnd, IntPtr hDC);
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct RECT
+        public static Mat CaptureScreen(int screenNum = 0)
         {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-        }
+            var screen = screenNum == 0 ?
+                Screen.PrimaryScreen :
+                Screen.AllScreens[screenNum];
 
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetWindowDC(IntPtr hwnd);
-
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        internal static extern int GetWindowRect(IntPtr hwnd, ref RECT lpRect);
-
-        #endregion
-        #region Result object
-
-        public class ImageCheckResult
-        {
-            public bool IsFound { get; set; }
-            public string ImagePath { get; set; }
-            public double Threshold { get; set; }
-            public double MatchValue { get; set; }
-            [JsonIgnore]
-            public OpenCvSharp.Point Location { get; set; }
-            [JsonIgnore]
-            public OpenCvSharp.Size Size { get; set; }
-        }
-
-        #endregion
-
-        public static Mat CaptureScreen()
-        {
             IntPtr desktopDC = GetDC(IntPtr.Zero);
-            using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppRgb))
+            using (Bitmap screenCapture = new Bitmap(screen.Bounds.Width, screen.Bounds.Height, PixelFormat.Format32bppRgb))
             using (Graphics g = Graphics.FromImage(screenCapture))
             {
                 IntPtr srcDC = g.GetHdc();
@@ -95,8 +41,6 @@ namespace ScreenChecker
             using (Mat template = new Mat(imagePath, ImreadModes.Unchanged))
             using (Mat result = new Mat())
             {
-                Console.WriteLine(imagePath + ": " + template.Type());
-
                 if (template.Type() == MatType.CV_8UC4)
                 {
                     Cv2.CvtColor(template, template, ColorConversionCodes.BGRA2BGR);
@@ -117,15 +61,18 @@ namespace ScreenChecker
 
                 ret.IsFound = maxVal >= threshold;
                 ret.ImagePath = imagePath;
-                ret.Threshold = threshold;
+                ret.Confidence = threshold;
                 ret.MatchValue = maxVal;
-                ret.Location = maxLoc;
-                ret.Size = new OpenCvSharp.Size(template.Width, template.Height);
+                if (ret.IsFound)
+                {
+                    ret.Location = maxLoc;
+                    ret.Size = new OpenCvSharp.Size(template.Width, template.Height);
+                }
                 return ret;
             }
         }
 
-        public static void DrawRectTarget(string path, ImageCheckResult icresult, Mat screen)
+        public static Mat DrawRectTarget(ImageCheckResult icresult, Mat screen)
         {
             if (icresult.IsFound)
             {
@@ -138,6 +85,11 @@ namespace ScreenChecker
                 screen.PutText("Hit", point, HersheyFonts.HersheyDuplex, 1, Scalar.Lime);
             }
 
+            return screen;
+        }
+
+        public static void ImageWrite(string path, Mat screen)
+        {
             screen.ImWrite(path);
         }
     }
