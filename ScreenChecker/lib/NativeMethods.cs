@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace ScreenChecker.Lib
 {
@@ -131,13 +132,13 @@ namespace ScreenChecker.Lib
             public int Bottom;
         }
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr GetWindowDC(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr GetForegroundWindow();
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         internal static extern int GetWindowRect(IntPtr hwnd, ref RECT lpRect);
 
         #endregion
@@ -168,6 +169,41 @@ namespace ScreenChecker.Lib
         internal static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         internal const uint WM_CLOSE = 0x0010;
+
+        #endregion
+        #region for enum window
+
+        public delegate bool EnumWindowsDelegate(IntPtr hWnd, IntPtr lparam);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public extern static bool EnumWindows(EnumWindowsDelegate lpEnumFunc, IntPtr lparam);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int GetWindowTextLength(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool IsWindowVisible(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool IsIconic(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool MoveWindow(IntPtr hWnd, int x, int y, int nWindow, int nHeight, bool bRepaint);
 
         #endregion
     }

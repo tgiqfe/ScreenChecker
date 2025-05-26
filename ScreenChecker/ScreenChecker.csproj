@@ -83,12 +83,15 @@
   <ItemGroup>
     <Compile Include="Cmdlet\CloseFolderWindow.cs" />
     <Compile Include="Cmdlet\FindLocateOnScreen.cs" />
+    <Compile Include="Cmdlet\GetWIndowInfo.cs" />
     <Compile Include="Cmdlet\InvokeKeyboardKey.cs" />
     <Compile Include="Cmdlet\InvokeMouseClick.cs" />
     <Compile Include="Cmdlet\InvokeMouseDragDrop.cs" />
     <Compile Include="Cmdlet\InvokeMouseMove.cs" />
     <Compile Include="Cmdlet\OpenFolderWindow.cs" />
     <Compile Include="Lib\Folder\FolderControl.cs" />
+    <Compile Include="Lib\Folder\WindowInfo.cs" />
+    <Compile Include="Lib\Folder\WindowInfoCollection.cs" />
     <Compile Include="Lib\Keyboard\KeyboardControl.cs" />
     <Compile Include="Lib\Keyboard\KeySender.cs" />
     <Compile Include="Lib\Keyboard\KeySendItem.cs" />
