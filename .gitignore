@@ -401,3 +401,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 /packages/*
+!/ScreenChecker/ScreenChecker.csproj.user
