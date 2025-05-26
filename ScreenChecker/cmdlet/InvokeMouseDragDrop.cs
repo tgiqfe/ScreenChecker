@@ -23,7 +23,7 @@ namespace ScreenChecker.Cmdlet
         public int ScreenNumber { get; set; }
 
         [Parameter]
-        public SwitchParameter Slow { get; set; }
+        public SwitchParameter Fast { get; set; }
 
         [Parameter]
         public int Delay { get; set; } = 0;
@@ -38,7 +38,7 @@ namespace ScreenChecker.Cmdlet
                     this.EndX ?? 0,
                     this.EndY ?? 0,
                     this.ScreenNumber,
-                    this.Slow);
+                    this.Fast);
             }
             else
             {
@@ -48,7 +48,7 @@ namespace ScreenChecker.Cmdlet
                     this.EndX ?? 0,
                     this.EndY ?? 0,
                     this.ScreenNumber,
-                    this.Slow);
+                    this.Fast);
             }
         }
     }

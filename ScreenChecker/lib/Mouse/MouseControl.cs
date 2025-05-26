@@ -10,6 +10,14 @@ namespace ScreenChecker.Lib
     {
         #region Create Input methods
 
+        /// <summary>
+        /// Mouse move
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="screen"></param>
+        /// <param name="extraInfo"></param>
+        /// <returns></returns>
         static NativeMethods.Input MouseMoveData(int x, int y, Screen screen, IntPtr extraInfo)
         {
             x = x * 65536 / screen.Bounds.Width;
@@ -26,6 +34,12 @@ namespace ScreenChecker.Lib
             return input;
         }
 
+        /// <summary>
+        /// Mouse click(left,right,middle)
+        /// </summary>
+        /// <param name="flags"></param>
+        /// <param name="extraInfo"></param>
+        /// <returns></returns>
         static NativeMethods.Input MouseDataWithoutMove(uint flags, IntPtr extraInfo)
         {
             var input = new NativeMethods.Input();
@@ -39,6 +53,12 @@ namespace ScreenChecker.Lib
             return input;
         }
 
+        /// <summary>
+        /// Mouse wheel
+        /// </summary>
+        /// <param name="delta"></param>
+        /// <param name="extraInfo"></param>
+        /// <returns></returns>
         static NativeMethods.Input MouseDataWheel(int delta, IntPtr extraInfo)
         {
             var input = new NativeMethods.Input();
@@ -54,19 +74,13 @@ namespace ScreenChecker.Lib
 
         #endregion
 
-        internal static void SendMouseMove(int x, int y, int screenNum = 0, bool isSlow = false)
+        internal static void SendMouseMove(int x, int y, int screenNum = 0, bool isFast = false)
         {
             var screen = screenNum == 0 ?
                 Screen.PrimaryScreen :
                 Screen.AllScreens[screenNum];
 
-            if (isSlow)
-            {
-                var pt = new NativeMethods.Win32Point() { x = 0, y = 0 };
-                NativeMethods.GetCursorPos(ref pt);
-                SlowMove(pt.x, pt.y, x, y);
-            }
-            else
+            if (isFast)
             {
                 var extraInfo = NativeMethods.GetMessageExtraInfo();
                 var input_move = MouseMoveData(x, y, screen, extraInfo);
@@ -76,6 +90,12 @@ namespace ScreenChecker.Lib
                     input_move
                 };
                 NativeMethods.SendInput((uint)inputs1.Length, ref inputs1[0], Marshal.SizeOf(inputs1[0]));
+            }
+            else
+            {
+                var pt = new NativeMethods.Win32Point() { x = 0, y = 0 };
+                NativeMethods.GetCursorPos(ref pt);
+                SlowMove(pt.x, pt.y, x, y);
             }
         }
 
@@ -178,14 +198,14 @@ namespace ScreenChecker.Lib
             NativeMethods.SendInput((uint)inputs2.Length, ref inputs2[0], Marshal.SizeOf(inputs2[0]));
         }
 
-        internal static void SendMouseLeftDrag(int x2, int y2, int screenNum = 0, bool isSlow = false, int interval = 500)
+        internal static void SendMouseLeftDrag(int x2, int y2, int screenNum = 0, bool isFast = false, int interval = 500)
         {
             var pt = new NativeMethods.Win32Point() { x = 0, y = 0 };
             NativeMethods.GetCursorPos(ref pt);
-            SendMouseLeftDrag(pt.x, pt.y, x2, y2, screenNum, isSlow, interval);
+            SendMouseLeftDrag(pt.x, pt.y, x2, y2, screenNum, isFast, interval);
         }
 
-        internal static void SendMouseLeftDrag(int x1, int y1, int x2, int y2, int screenNum = 0, bool isSlow = false, int interval = 500)
+        internal static void SendMouseLeftDrag(int x1, int y1, int x2, int y2, int screenNum = 0, bool isFast = false, int interval = 500)
         {
             var screen = screenNum == 0 ?
                 Screen.PrimaryScreen :
@@ -197,19 +217,19 @@ namespace ScreenChecker.Lib
             var input_move_end = MouseMoveData(x2, y2, screen, extraInfo);
             var input_leftup = MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTUP, extraInfo);
 
-            if (isSlow)
-            {
-                var pt = new NativeMethods.Win32Point() { x = 0, y = 0 };
-                NativeMethods.GetCursorPos(ref pt);
-                SlowMove(pt.x, pt.y, x1, y1);
-            }
-            else
+            if (isFast)
             {
                 var inputs1 = new NativeMethods.Input[]
                 {
                     input_move_start,
                 };
                 NativeMethods.SendInput((uint)inputs1.Length, ref inputs1[0], Marshal.SizeOf(inputs1[0]));
+            }
+            else
+            {
+                var pt = new NativeMethods.Win32Point() { x = 0, y = 0 };
+                NativeMethods.GetCursorPos(ref pt);
+                SlowMove(pt.x, pt.y, x1, y1);
             }
 
             var inputs2 = new NativeMethods.Input[]
@@ -218,13 +238,13 @@ namespace ScreenChecker.Lib
             };
             NativeMethods.SendInput((uint)inputs2.Length, ref inputs2[0], Marshal.SizeOf(inputs2[0]));
 
-            if (isSlow)
+            if (isFast)
             {
-                SlowMove(x1, y1, x2, y2);
+                Thread.Sleep(interval);
             }
             else
             {
-                Thread.Sleep(interval);
+                SlowMove(x1, y1, x2, y2);
             }
 
             var inputs3 = new NativeMethods.Input[]

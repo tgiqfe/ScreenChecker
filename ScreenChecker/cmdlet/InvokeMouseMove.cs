@@ -22,7 +22,7 @@ namespace ScreenChecker.Cmdlet
         public int ScreenNumber { get; set; } = 0;
 
         [Parameter]
-        public SwitchParameter Slow { get; set; }
+        public SwitchParameter Fast { get; set; }
 
         [Parameter]
         public int Delay { get; set; } = 0;
@@ -31,7 +31,7 @@ namespace ScreenChecker.Cmdlet
         {
             if (this.Delay > 0) Thread.Sleep(this.Delay);
 
-            MouseControl.SendMouseMove(this.X, this.Y, this.ScreenNumber, this.Slow.IsPresent);
+            MouseControl.SendMouseMove(this.X, this.Y, this.ScreenNumber, this.Fast);
         }
     }
 }

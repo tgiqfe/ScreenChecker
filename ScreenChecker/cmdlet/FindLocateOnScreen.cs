@@ -37,7 +37,7 @@ namespace ScreenChecker
         public int ScreenNumber { get; set; }
 
         [Parameter]
-        public SwitchParameter Slow { get; set; }
+        public SwitchParameter Fast { get; set; }
 
         #endregion
 
@@ -81,16 +81,16 @@ namespace ScreenChecker
 
                 if (this.Move)
                 {
-                    MouseControl.SendMouseMove(centerX, centerY, this.ScreenNumber, this.Slow);
+                    MouseControl.SendMouseMove(centerX, centerY, this.ScreenNumber, this.Fast);
                 }
                 else if (this.DoubleClick)
                 {
-                    MouseControl.SendMouseMove(centerX, centerY, this.ScreenNumber, this.Slow);
+                    MouseControl.SendMouseMove(centerX, centerY, this.ScreenNumber, this.Fast);
                     MouseControl.SendMouseLeftDoubleClick();
                 }
                 else if (this.Click)
                 {
-                    MouseControl.SendMouseMove(centerX, centerY, this.ScreenNumber, this.Slow);
+                    MouseControl.SendMouseMove(centerX, centerY, this.ScreenNumber, this.Fast);
                     MouseControl.SendMouseLeftClick();
                 }
             }
