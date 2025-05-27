@@ -142,6 +142,7 @@ namespace ScreenChecker.Lib.Mouse
             SendInputProcess(MouseControl.MouseDataWheel(delta, extraInfo));
         }
 
+        /*
         internal static void MouseMove(int x, int y, int screenNum = 0, bool isFast = false)
         {
             var screen = screenNum == 0 ?
@@ -334,5 +335,6 @@ namespace ScreenChecker.Lib.Mouse
             };
             NativeMethods.SendInput((uint)inputs.Length, ref inputs[0], Marshal.SizeOf(inputs[0]));
         }
+        */
     }
 }

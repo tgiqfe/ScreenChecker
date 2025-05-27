@@ -13,6 +13,9 @@ namespace ScreenChecker.Cmdlet
     [Cmdlet(VerbsLifecycle.Invoke, "MouseClick")]
     public class InvokeMouseClick : PSCmdlet
     {
+        [Parameter(ValueFromPipeline = true)]
+        public ScreenCheckResult[] InputObject { get; set; }
+
         [Parameter(Position = 0)]
         public MouseAction Action { get; set; } = MouseAction.Click;
 
@@ -41,32 +44,36 @@ namespace ScreenChecker.Cmdlet
         {
             if (this.Delay > 0) Thread.Sleep(this.Delay);
 
-            if (this.X != null && this.Y != null)
+            var sender = new MouseSender();
+
+            if (InputObject?.Length > 0)
             {
-                MouseSender.MouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
+                var result = InputObject.Where(x => x.IsFound).OrderBy(x => x.MatchValue).FirstOrDefault();
+                if(result != null)
+                {
+
+                }
+            }
+            else if (this.X != null && this.Y != null)
+            {
+                sender.MouseMove2(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
             }
 
-            var sender = new MouseSender();
             switch (this.Action)
             {
                 case MouseAction.Click:
-                    //MouseSender.MouseLeftClick();
                     sender.MouseLeftClick2();
                     break;
                 case MouseAction.DoubleClick:
-                    //MouseSender.MouseLeftDoubleClick();
                     sender.MouseLeftDoubleClick2(this.DoubleClickInterval);
                     break;
                 case MouseAction.RightClick:
-                    //MouseSender.MouseRightClick();
                     sender.MouseRightClick2();
                     break;
                 case MouseAction.MiddleClick:
-                    //MouseSender.MouseMiddleClick();
                     sender.MouseMiddleClick2();
                     break;
                 case MouseAction.Wheel:
-                    //MouseSender.MouseWheel(this.WheelDelta);
                     sender.MouseWheel2(this.WheelDelta);
                     break;
             }

@@ -34,8 +34,6 @@ namespace ScreenChecker.Cmdlet
 
             var sender = new MouseSender();
             sender.MouseMove2(this.X, this.Y, this.ScreenNumber, this.Fast);
-
-            // MouseSender.MouseMove(this.X, this.Y, this.ScreenNumber, this.Fast);
         }
     }
 }

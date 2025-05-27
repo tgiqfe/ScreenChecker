@@ -41,13 +41,6 @@ namespace ScreenChecker.Cmdlet
                     this.EndY ?? 0,
                     this.ScreenNumber,
                     this.Fast);
-                /*
-                MouseSender.MouseLeftDrag(
-                    this.EndX ?? 0,
-                    this.EndY ?? 0,
-                    this.ScreenNumber,
-                    this.Fast);
-                */
             }
             else
             {
@@ -58,15 +51,6 @@ namespace ScreenChecker.Cmdlet
                     this.EndY.Value,
                     this.ScreenNumber,
                     this.Fast);
-                /*
-                MouseSender.MouseLeftDrag(
-                    this.StartX.Value,
-                    this.StartY.Value,
-                    this.EndX ?? 0,
-                    this.EndY ?? 0,
-                    this.ScreenNumber,
-                    this.Fast);
-                */
             }
         }
     }
