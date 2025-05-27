@@ -67,6 +67,11 @@ namespace ScreenChecker.Lib
                 {
                     ret.Location = maxLoc;
                     ret.Size = new OpenCvSharp.Size(template.Width, template.Height);
+
+                    ret.Left = maxLoc.X;
+                    ret.Top = maxLoc.Y;
+                    ret.Width = template.Width;
+                    ret.Height = template.Height;
                 }
                 return ret;
             }
