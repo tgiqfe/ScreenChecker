@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ScreenChecker.Lib;
+using ScreenChecker.Lib.Mouse;
 
 namespace ScreenChecker.Cmdlet
 {
@@ -31,6 +32,9 @@ namespace ScreenChecker.Cmdlet
         public SwitchParameter Fast { get; set; }
 
         [Parameter]
+        public int DoubleClickInterval { get; set; }
+
+        [Parameter]
         public int Delay { get; set; } = 0;
 
         protected override void ProcessRecord()
@@ -39,25 +43,25 @@ namespace ScreenChecker.Cmdlet
 
             if (this.X != null && this.Y != null)
             {
-                MouseControl.SendMouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
+                MouseSender.SendMouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
             }
 
             switch (this.Action)
             {
                 case MouseAction.Click:
-                    MouseControl.SendMouseLeftClick();
+                    MouseSender.SendMouseLeftClick();
                     break;
                 case MouseAction.DoubleClick:
-                    MouseControl.SendMouseLeftDoubleClick();
+                    MouseSender.SendMouseLeftDoubleClick();
                     break;
                 case MouseAction.RightClick:
-                    MouseControl.SendMouseRightClick();
+                    MouseSender.SendMouseRightClick();
                     break;
                 case MouseAction.MiddleClick:
-                    MouseControl.SendMouseMiddleClick();
+                    MouseSender.SendMouseMiddleClick();
                     break;
                 case MouseAction.Wheel:
-                    MouseControl.SendMouseWheel(this.WheelDelta);
+                    MouseSender.SendMouseWheel(this.WheelDelta);
                     break;
             }
         }

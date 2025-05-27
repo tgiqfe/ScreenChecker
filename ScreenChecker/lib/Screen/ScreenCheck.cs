@@ -34,9 +34,9 @@ namespace ScreenChecker.Lib
             }
         }
 
-        public static ImageCheckResult LocateOnScreen(Mat screen, string imagePath, double threshold)
+        public static ScreenCheckResult LocateOnScreen(Mat screen, string imagePath, double threshold)
         {
-            ImageCheckResult ret = new ImageCheckResult();
+            ScreenCheckResult ret = new ScreenCheckResult();
 
             using (Mat template = new Mat(imagePath, ImreadModes.Unchanged))
             using (Mat result = new Mat())
@@ -72,7 +72,7 @@ namespace ScreenChecker.Lib
             }
         }
 
-        public static Mat DrawRectTarget(ImageCheckResult icresult, Mat screen)
+        public static Mat DrawRectTarget(ScreenCheckResult icresult, Mat screen)
         {
             if (icresult.IsFound)
             {

@@ -23,11 +23,11 @@ namespace ScreenChecker.PackageManifest
 
         public string TargetDirectory
         {
-            get { return Path.Combine(this.ProjectDirectory, ProjectName, "bin", BuildType; }
+            get { return Path.Combine(this.ProjectDirectory, ProjectName, "bin", BuildType); }
         }
         public string ModuleDirectory
         {
-            get { return Path.Combine(this.ProjectDirectory, ProjectName, "bin", ProjectName; }
+            get { return Path.Combine(this.ProjectDirectory, ProjectName, "bin", ProjectName); }
         }
 
 

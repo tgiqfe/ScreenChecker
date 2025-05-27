@@ -1,6 +1,7 @@
 ﻿using System.Management.Automation;
 using System.Threading;
 using ScreenChecker.Lib;
+using ScreenChecker.Lib.Mouse;
 
 namespace ScreenChecker.Cmdlet
 {
@@ -34,7 +35,7 @@ namespace ScreenChecker.Cmdlet
 
             if (this.StartX == null || this.StartY == null)
             {
-                MouseControl.SendMouseLeftDrag(
+                MouseSender.SendMouseLeftDrag(
                     this.EndX ?? 0,
                     this.EndY ?? 0,
                     this.ScreenNumber,
@@ -42,7 +43,7 @@ namespace ScreenChecker.Cmdlet
             }
             else
             {
-                MouseControl.SendMouseLeftDrag(
+                MouseSender.SendMouseLeftDrag(
                     this.StartX.Value,
                     this.StartY.Value,
                     this.EndX ?? 0,

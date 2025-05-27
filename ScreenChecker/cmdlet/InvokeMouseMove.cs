@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ScreenChecker.Lib;
+using ScreenChecker.Lib.Mouse;
 
 namespace ScreenChecker.Cmdlet
 {
@@ -31,7 +32,7 @@ namespace ScreenChecker.Cmdlet
         {
             if (this.Delay > 0) Thread.Sleep(this.Delay);
 
-            MouseControl.SendMouseMove(this.X, this.Y, this.ScreenNumber, this.Fast);
+            MouseSender.SendMouseMove(this.X, this.Y, this.ScreenNumber, this.Fast);
         }
     }
 }

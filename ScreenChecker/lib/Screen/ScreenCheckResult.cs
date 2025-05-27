@@ -1,7 +1,7 @@
 ﻿
 namespace ScreenChecker.Lib
 {
-    public class ImageCheckResult
+    public class ScreenCheckResult
     {
         public bool IsFound { get; set; }
 
