@@ -43,13 +43,17 @@ namespace ScreenChecker.Cmdlet
 
             if (ScreenCheckResult1 != null && ScreenCheckResult1.IsFound)
             {
-                this.StartX = ScreenCheckResult1.Location.X + (ScreenCheckResult1.Size.Width / 2);
-                this.StartY = ScreenCheckResult1.Location.Y + (ScreenCheckResult1.Size.Height / 2);
+                //this.StartX = ScreenCheckResult1.Location.X + (ScreenCheckResult1.Size.Width / 2);
+                //this.StartY = ScreenCheckResult1.Location.Y + (ScreenCheckResult1.Size.Height / 2);
+                this.StartX = ScreenCheckResult1.Left + ScreenCheckResult1.Width / 2;
+                this.StartY = ScreenCheckResult1.Top + ScreenCheckResult1.Height / 2;
             }
             if (ScreenCheckResult2 != null && ScreenCheckResult2.IsFound)
             {
-                this.EndX = ScreenCheckResult2.Location.X + (ScreenCheckResult2.Size.Width / 2);
-                this.EndY = ScreenCheckResult2.Location.Y + (ScreenCheckResult2.Size.Height / 2);
+                //this.EndX = ScreenCheckResult2.Location.X + (ScreenCheckResult2.Size.Width / 2);
+                //this.EndY = ScreenCheckResult2.Location.Y + (ScreenCheckResult2.Size.Height / 2);
+                this.EndX = ScreenCheckResult2.Left + ScreenCheckResult2.Width / 2;
+                this.EndY = ScreenCheckResult2.Top + ScreenCheckResult2.Height / 2;
             }
 
             if (this.StartX == null || this.StartY == null)

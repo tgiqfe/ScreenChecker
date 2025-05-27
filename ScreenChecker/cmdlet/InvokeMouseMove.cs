@@ -44,8 +44,10 @@ namespace ScreenChecker.Cmdlet
                 {
                     return;
                 }
-                this.X = result.Location.X + (result.Size.Width / 2);
-                this.Y = result.Location.Y + (result.Size.Height / 2);
+                //this.X = result.Location.X + (result.Size.Width / 2);
+                //this.Y = result.Location.Y + (result.Size.Height / 2);
+                this.X = result.Left + result.Width / 2;
+                this.Y = result.Top + result.Height / 2;
             }
             if (this.X != null && this.Y != null)
             {

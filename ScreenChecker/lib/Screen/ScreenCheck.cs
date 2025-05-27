@@ -65,9 +65,10 @@ namespace ScreenChecker.Lib
                 ret.MatchValue = maxVal;
                 if (ret.IsFound)
                 {
+                    /*
                     ret.Location = maxLoc;
                     ret.Size = new OpenCvSharp.Size(template.Width, template.Height);
-
+                    */
                     ret.Left = maxLoc.X;
                     ret.Top = maxLoc.Y;
                     ret.Width = template.Width;
@@ -81,8 +82,11 @@ namespace ScreenChecker.Lib
         {
             if (icresult.IsFound)
             {
-                screen.Rectangle(new Rect(icresult.Location, icresult.Size), Scalar.Lime, 2);
-                var point = icresult.Location;
+                screen.Rectangle(
+                    new Rect(icresult.Left, icresult.Top, icresult.Width, icresult.Height),Scalar.Lime, 2);
+                //screen.Rectangle(new Rect(icresult.Location, icresult.Size), Scalar.Lime, 2);
+                var point = new OpenCvSharp.Point(icresult.Left, icresult.Top);
+                //var point = icresult.Location;
                 if (point.Y < 25)
                 {
                     point.Y += 25;

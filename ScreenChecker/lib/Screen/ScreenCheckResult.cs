@@ -11,9 +11,11 @@ namespace ScreenChecker.Lib
 
         public double MatchValue { get; set; }
 
+        /*
         public OpenCvSharp.Point Location { get; set; }
 
         public OpenCvSharp.Size Size { get; set; }
+        */
 
         public int Left { get; set; }
 
