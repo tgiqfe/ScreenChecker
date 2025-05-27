@@ -43,25 +43,25 @@ namespace ScreenChecker.Cmdlet
 
             if (this.X != null && this.Y != null)
             {
-                MouseSender.SendMouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
+                MouseSender.MouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
             }
 
             switch (this.Action)
             {
                 case MouseAction.Click:
-                    MouseSender.SendMouseLeftClick();
+                    MouseSender.MouseLeftClick();
                     break;
                 case MouseAction.DoubleClick:
-                    MouseSender.SendMouseLeftDoubleClick();
+                    MouseSender.MouseLeftDoubleClick();
                     break;
                 case MouseAction.RightClick:
-                    MouseSender.SendMouseRightClick();
+                    MouseSender.MouseRightClick();
                     break;
                 case MouseAction.MiddleClick:
-                    MouseSender.SendMouseMiddleClick();
+                    MouseSender.MouseMiddleClick();
                     break;
                 case MouseAction.Wheel:
-                    MouseSender.SendMouseWheel(this.WheelDelta);
+                    MouseSender.MouseWheel(this.WheelDelta);
                     break;
             }
         }

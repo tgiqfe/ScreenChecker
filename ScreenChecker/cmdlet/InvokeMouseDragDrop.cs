@@ -35,7 +35,7 @@ namespace ScreenChecker.Cmdlet
 
             if (this.StartX == null || this.StartY == null)
             {
-                MouseSender.SendMouseLeftDrag(
+                MouseSender.MouseLeftDrag(
                     this.EndX ?? 0,
                     this.EndY ?? 0,
                     this.ScreenNumber,
@@ -43,7 +43,7 @@ namespace ScreenChecker.Cmdlet
             }
             else
             {
-                MouseSender.SendMouseLeftDrag(
+                MouseSender.MouseLeftDrag(
                     this.StartX.Value,
                     this.StartY.Value,
                     this.EndX ?? 0,

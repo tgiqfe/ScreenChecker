@@ -11,7 +11,138 @@ namespace ScreenChecker.Lib.Mouse
 {
     internal class MouseSender
     {
-        internal static void SendMouseMove(int x, int y, int screenNum = 0, bool isFast = false)
+        private void SendInputProcess(params NativeMethods.Input[] inputs)
+        {
+            if (inputs?.Length > 0)
+            {
+                NativeMethods.SendInput((uint)inputs.Length, ref inputs[0], Marshal.SizeOf(inputs[0]));
+            }
+        }
+
+        public void MouseMove2(int x, int y, int screenNum = 0, bool isFast = false)
+        {
+            var screen = screenNum == 0 ?
+                Screen.PrimaryScreen :
+                Screen.AllScreens[screenNum];
+            var extraInfo = NativeMethods.GetMessageExtraInfo();
+            if (isFast)
+            {
+                SendInputProcess(MouseControl.MouseMoveData(x, y, screen, extraInfo));
+            }
+            else
+            {
+                var pt = new NativeMethods.Win32Point() { x = 0, y = 0 };
+                NativeMethods.GetCursorPos(ref pt);
+                MouseControl.SlowMove(pt.x, pt.y, x, y);
+            }
+        }
+
+        public void MouseLeftClick2(int interval = 100)
+        {
+            var extraInfo = NativeMethods.GetMessageExtraInfo();
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTDOWN, extraInfo));
+            Thread.Sleep(interval);
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTUP, extraInfo));
+        }
+
+        public void MouseLeftDoubleClick2(int interval = 100, int wClickInterval = 300)
+        {
+            var extraInfo = NativeMethods.GetMessageExtraInfo();
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTDOWN, extraInfo));
+            Thread.Sleep(interval);
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTUP, extraInfo));
+            Thread.Sleep(wClickInterval);
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTDOWN, extraInfo));
+            Thread.Sleep(interval);
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTUP, extraInfo));
+        }
+
+        public void MouseMiddleClick2(int interval = 100)
+        {
+            var extraInfo = NativeMethods.GetMessageExtraInfo();
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_MIDDLEDOWN, extraInfo));
+            Thread.Sleep(interval);
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_MIDDLEUP, extraInfo));
+        }
+
+        public void MouseRightClick2(int interval = 100)
+        {
+            var extraInfo = NativeMethods.GetMessageExtraInfo();
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_RIGHTDOWN, extraInfo));
+            Thread.Sleep(interval);
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_RIGHTUP, extraInfo));
+        }
+
+        public void MouseLeftDrag2(int x1, int y1, int x2, int y2, int screenNum = 0, bool isFast = false, int interval = 500)
+        {
+            var screen = screenNum == 0 ?
+                Screen.PrimaryScreen :
+                Screen.AllScreens[screenNum];
+            var extraInfo = NativeMethods.GetMessageExtraInfo();
+
+            //  move to drag start position.
+            if (isFast)
+            {
+                SendInputProcess(MouseControl.MouseMoveData(x1, y1, screen, extraInfo));
+            }
+            else
+            {
+                var pt = new NativeMethods.Win32Point() { x = 0, y = 0 };
+                NativeMethods.GetCursorPos(ref pt);
+                MouseControl.SlowMove(pt.x, pt.y, x1, y1);
+            }
+
+            //  left down
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTDOWN, extraInfo));
+
+            //  move to drag end position.
+            if (isFast)
+            {
+                Thread.Sleep(interval);
+            }
+            else
+            {
+                MouseControl.SlowMove(x1, y1, x2, y2);
+            }
+            SendInputProcess(
+                MouseControl.MouseMoveData(x2, y2, screen, extraInfo),
+                MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTUP, extraInfo));
+        }
+
+        public void MouseLeftDrag2(int x2, int y2, int screenNum = 0, bool isFast = false, int interval = 500)
+        {
+            var screen = screenNum == 0 ?
+                Screen.PrimaryScreen :
+                Screen.AllScreens[screenNum];
+            var extraInfo = NativeMethods.GetMessageExtraInfo();
+
+            var pt = new NativeMethods.Win32Point() { x = 0, y = 0 };
+            NativeMethods.GetCursorPos(ref pt);
+
+            //  left down
+            SendInputProcess(MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTDOWN, extraInfo));
+
+            //  move to drag end position.
+            if (isFast)
+            {
+                Thread.Sleep(interval);
+            }
+            else
+            {
+                MouseControl.SlowMove(pt.x, pt.y, x2, y2);
+            }
+            SendInputProcess(
+                MouseControl.MouseMoveData(x2, y2, screen, extraInfo),
+                MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTUP, extraInfo));
+        }
+
+        public void MouseWheel2(int delta)
+        {
+            var extraInfo = NativeMethods.GetMessageExtraInfo();
+            SendInputProcess(MouseControl.MouseDataWheel(delta, extraInfo));
+        }
+
+        internal static void MouseMove(int x, int y, int screenNum = 0, bool isFast = false)
         {
             var screen = screenNum == 0 ?
                 Screen.PrimaryScreen :
@@ -36,7 +167,7 @@ namespace ScreenChecker.Lib.Mouse
             }
         }
 
-        internal static void SendMouseLeftClick(int interval = 100)
+        internal static void MouseLeftClick(int interval = 100)
         {
             var extraInfo = NativeMethods.GetMessageExtraInfo();
             var input_leftdown = MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTDOWN, extraInfo);
@@ -57,7 +188,7 @@ namespace ScreenChecker.Lib.Mouse
             NativeMethods.SendInput((uint)inputs2.Length, ref inputs2[0], Marshal.SizeOf(inputs2[0]));
         }
 
-        internal static void SendMouseLeftDoubleClick(int interval = 100, int wClickInterval = 300)
+        internal static void MouseLeftDoubleClick(int interval = 100, int wClickInterval = 300)
         {
             var extraInfo = NativeMethods.GetMessageExtraInfo();
             var input_leftdown = MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_LEFTDOWN, extraInfo);
@@ -93,7 +224,7 @@ namespace ScreenChecker.Lib.Mouse
             NativeMethods.SendInput((uint)inputs4.Length, ref inputs4[0], Marshal.SizeOf(inputs4[0]));
         }
 
-        internal static void SendMouseMiddleClick(int interval = 100)
+        internal static void MouseMiddleClick(int interval = 100)
         {
             var extraInfo = NativeMethods.GetMessageExtraInfo();
             var input_middledown = MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_MIDDLEDOWN, extraInfo);
@@ -114,7 +245,7 @@ namespace ScreenChecker.Lib.Mouse
             NativeMethods.SendInput((uint)inputs2.Length, ref inputs2[0], Marshal.SizeOf(inputs2[0]));
         }
 
-        internal static void SendMouseRightClick(int interval = 100)
+        internal static void MouseRightClick(int interval = 100)
         {
             var extraInfo = NativeMethods.GetMessageExtraInfo();
             var input_rightdown = MouseControl.MouseDataWithoutMove(NativeMethods.MOUSEEVENTF_RIGHTDOWN, extraInfo);
@@ -135,14 +266,14 @@ namespace ScreenChecker.Lib.Mouse
             NativeMethods.SendInput((uint)inputs2.Length, ref inputs2[0], Marshal.SizeOf(inputs2[0]));
         }
 
-        internal static void SendMouseLeftDrag(int x2, int y2, int screenNum = 0, bool isFast = false, int interval = 500)
+        internal static void MouseLeftDrag(int x2, int y2, int screenNum = 0, bool isFast = false, int interval = 500)
         {
             var pt = new NativeMethods.Win32Point() { x = 0, y = 0 };
             NativeMethods.GetCursorPos(ref pt);
-            SendMouseLeftDrag(pt.x, pt.y, x2, y2, screenNum, isFast, interval);
+            MouseLeftDrag(pt.x, pt.y, x2, y2, screenNum, isFast, interval);
         }
 
-        internal static void SendMouseLeftDrag(int x1, int y1, int x2, int y2, int screenNum = 0, bool isFast = false, int interval = 500)
+        internal static void MouseLeftDrag(int x1, int y1, int x2, int y2, int screenNum = 0, bool isFast = false, int interval = 500)
         {
             var screen = screenNum == 0 ?
                 Screen.PrimaryScreen :
@@ -192,7 +323,7 @@ namespace ScreenChecker.Lib.Mouse
             NativeMethods.SendInput((uint)inputs3.Length, ref inputs3[0], Marshal.SizeOf(inputs3[0]));
         }
 
-        internal static void SendMouseWheel(int delta)
+        internal static void MouseWheel(int delta)
         {
             var extraInfo = NativeMethods.GetMessageExtraInfo();
             var input_wheel = MouseControl.MouseDataWheel(delta, extraInfo);
