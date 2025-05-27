@@ -13,11 +13,14 @@ namespace ScreenChecker.Cmdlet
     [Cmdlet(VerbsLifecycle.Invoke, "MouseMove")]
     public class InvokeMouseMove : PSCmdlet
     {
-        [Parameter(Mandatory = true, Position = 0)]
-        public int X { get; set; }
+        [Parameter(ValueFromPipeline = true)]
+        public ScreenCheckResult[] InputScreenCheckResult { get; set; }
 
-        [Parameter(Mandatory = true, Position = 1)]
-        public int Y { get; set; }
+        [Parameter(Position = 0)]
+        public int? X { get; set; }
+
+        [Parameter(Position = 1)]
+        public int? Y { get; set; }
 
         [Parameter]
         public int ScreenNumber { get; set; } = 0;
@@ -33,7 +36,21 @@ namespace ScreenChecker.Cmdlet
             if (this.Delay > 0) Thread.Sleep(this.Delay);
 
             var sender = new MouseSender();
-            sender.MouseMove2(this.X, this.Y, this.ScreenNumber, this.Fast);
+
+            if (InputScreenCheckResult?.Length > 0)
+            {
+                var result = InputScreenCheckResult.Where(x => x.IsFound).OrderBy(x => x.MatchValue).FirstOrDefault();
+                if (result == null)
+                {
+                    return;
+                }
+                this.X = result.Location.X + (result.Size.Width / 2);
+                this.Y = result.Location.Y + (result.Size.Height / 2);
+            }
+            if (this.X != null && this.Y != null)
+            {
+                sender.MouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
+            }  
         }
     }
 }

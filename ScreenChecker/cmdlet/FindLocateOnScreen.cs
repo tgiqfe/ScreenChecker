@@ -40,7 +40,9 @@ namespace ScreenChecker
         protected override void ProcessRecord()
         {
             var capture = ScreenCheck.CaptureScreen(ScreenNumber);
-            var results = this.ImagePath.Select(x => ScreenCheck.LocateOnScreen(capture, x, Confidence));
+            var results = this.ImagePath.
+                Select(x => ScreenCheck.LocateOnScreen(capture, x, Confidence)).
+                ToArray();
 
             if (!string.IsNullOrEmpty(this.OutputPath))
             {
@@ -60,7 +62,14 @@ namespace ScreenChecker
                 ScreenCheck.ImageWrite(this.OutputPath, tempOutputCapture);
             }
 
-            WriteObject(results);
+            if(results.Length == 1)
+            {
+                WriteObject(results[0]);
+            }
+            else
+            {
+                WriteObject(results);
+            }
         }
 
         protected override void EndProcessing()

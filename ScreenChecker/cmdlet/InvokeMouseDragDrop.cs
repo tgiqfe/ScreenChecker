@@ -21,6 +21,12 @@ namespace ScreenChecker.Cmdlet
         public int? EndY { get; set; }
 
         [Parameter]
+        public ScreenCheckResult ScreenCheckResult1 { get; set; }
+
+        [Parameter]
+        public ScreenCheckResult ScreenCheckResult2 { get; set; }
+
+        [Parameter]
         public int ScreenNumber { get; set; }
 
         [Parameter]
@@ -34,9 +40,21 @@ namespace ScreenChecker.Cmdlet
             if (this.Delay > 0) Thread.Sleep(this.Delay);
 
             var sender = new MouseSender();
+
+            if (ScreenCheckResult1 != null && ScreenCheckResult1.IsFound)
+            {
+                this.StartX = ScreenCheckResult1.Location.X + (ScreenCheckResult1.Size.Width / 2);
+                this.StartY = ScreenCheckResult1.Location.Y + (ScreenCheckResult1.Size.Height / 2);
+            }
+            if (ScreenCheckResult2 != null && ScreenCheckResult2.IsFound)
+            {
+                this.EndX = ScreenCheckResult2.Location.X + (ScreenCheckResult2.Size.Width / 2);
+                this.EndY = ScreenCheckResult2.Location.Y + (ScreenCheckResult2.Size.Height / 2);
+            }
+
             if (this.StartX == null || this.StartY == null)
             {
-                sender.MouseLeftDrag2(
+                sender.MouseLeftDrag(
                     this.EndX ?? 0,
                     this.EndY ?? 0,
                     this.ScreenNumber,
@@ -44,7 +62,7 @@ namespace ScreenChecker.Cmdlet
             }
             else
             {
-                sender.MouseLeftDrag2(
+                sender.MouseLeftDrag(
                     this.StartX.Value,
                     this.StartY.Value,
                     this.EndX.Value,

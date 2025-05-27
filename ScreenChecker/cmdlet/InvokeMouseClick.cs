@@ -14,7 +14,7 @@ namespace ScreenChecker.Cmdlet
     public class InvokeMouseClick : PSCmdlet
     {
         [Parameter(ValueFromPipeline = true)]
-        public ScreenCheckResult[] InputObject { get; set; }
+        public ScreenCheckResult[] InputScreenCheckResult { get; set; }
 
         [Parameter(Position = 0)]
         public MouseAction Action { get; set; } = MouseAction.Click;
@@ -46,35 +46,37 @@ namespace ScreenChecker.Cmdlet
 
             var sender = new MouseSender();
 
-            if (InputObject?.Length > 0)
+            if (InputScreenCheckResult?.Length > 0)
             {
-                var result = InputObject.Where(x => x.IsFound).OrderBy(x => x.MatchValue).FirstOrDefault();
-                if(result != null)
+                var result = InputScreenCheckResult.Where(x => x.IsFound).OrderBy(x => x.MatchValue).FirstOrDefault();
+                if (result == null)
                 {
-
+                    return;
                 }
+                this.X = result.Location.X + (result.Size.Width / 2);
+                this.Y = result.Location.Y + (result.Size.Height / 2);
             }
-            else if (this.X != null && this.Y != null)
+            if (this.X != null && this.Y != null)
             {
-                sender.MouseMove2(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
+                sender.MouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
             }
 
             switch (this.Action)
             {
                 case MouseAction.Click:
-                    sender.MouseLeftClick2();
+                    sender.MouseLeftClick();
                     break;
                 case MouseAction.DoubleClick:
-                    sender.MouseLeftDoubleClick2(this.DoubleClickInterval);
+                    sender.MouseLeftDoubleClick(this.DoubleClickInterval);
                     break;
                 case MouseAction.RightClick:
-                    sender.MouseRightClick2();
+                    sender.MouseRightClick();
                     break;
                 case MouseAction.MiddleClick:
-                    sender.MouseMiddleClick2();
+                    sender.MouseMiddleClick();
                     break;
                 case MouseAction.Wheel:
-                    sender.MouseWheel2(this.WheelDelta);
+                    sender.MouseWheel(this.WheelDelta);
                     break;
             }
         }
