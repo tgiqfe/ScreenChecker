@@ -6,6 +6,11 @@ namespace ScreenChecker.Lib.Folder
 {
     internal class FolderControl
     {
+        /// <summary>
+        /// Explorer folder Open. select item (file, folder) name.
+        /// </summary>
+        /// <param name="folderPath"></param>
+        /// <param name="itemName"></param>
         public static void Open(string folderPath, string itemName = null)
         {
             if (string.IsNullOrEmpty(itemName))
@@ -29,6 +34,10 @@ namespace ScreenChecker.Lib.Folder
             }
         }
 
+        /// <summary>
+        /// Explorer folder Close.
+        /// </summary>
+        /// <param name="folderPath"></param>
         public static void Close(string folderPath)
         {
             string uri = new Uri(folderPath).ToString().TrimEnd('/');

@@ -1,7 +1,7 @@
 ﻿
 namespace ScreenChecker.Lib
 {
-    public class ImageCheckResult
+    public class ScreenCheckResult
     {
         public bool IsFound { get; set; }
 
@@ -11,8 +11,18 @@ namespace ScreenChecker.Lib
 
         public double MatchValue { get; set; }
 
+        /*
         public OpenCvSharp.Point Location { get; set; }
 
         public OpenCvSharp.Size Size { get; set; }
+        */
+
+        public int Left { get; set; }
+
+        public int Top { get; set; }
+
+        public int Width { get; set; }
+
+        public int Height { get; set; }
     }
 }

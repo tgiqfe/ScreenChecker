@@ -1,6 +1,7 @@
 ﻿using System.Management.Automation;
 using System.Threading;
 using ScreenChecker.Lib;
+using ScreenChecker.Lib.Mouse;
 
 namespace ScreenChecker.Cmdlet
 {
@@ -20,10 +21,16 @@ namespace ScreenChecker.Cmdlet
         public int? EndY { get; set; }
 
         [Parameter]
+        public ScreenCheckResult ScreenCheckResult1 { get; set; }
+
+        [Parameter]
+        public ScreenCheckResult ScreenCheckResult2 { get; set; }
+
+        [Parameter]
         public int ScreenNumber { get; set; }
 
         [Parameter]
-        public SwitchParameter Slow { get; set; }
+        public SwitchParameter Fast { get; set; }
 
         [Parameter]
         public int Delay { get; set; } = 0;
@@ -32,23 +39,40 @@ namespace ScreenChecker.Cmdlet
         {
             if (this.Delay > 0) Thread.Sleep(this.Delay);
 
+            var sender = new MouseSender();
+
+            if (ScreenCheckResult1 != null && ScreenCheckResult1.IsFound)
+            {
+                //this.StartX = ScreenCheckResult1.Location.X + (ScreenCheckResult1.Size.Width / 2);
+                //this.StartY = ScreenCheckResult1.Location.Y + (ScreenCheckResult1.Size.Height / 2);
+                this.StartX = ScreenCheckResult1.Left + ScreenCheckResult1.Width / 2;
+                this.StartY = ScreenCheckResult1.Top + ScreenCheckResult1.Height / 2;
+            }
+            if (ScreenCheckResult2 != null && ScreenCheckResult2.IsFound)
+            {
+                //this.EndX = ScreenCheckResult2.Location.X + (ScreenCheckResult2.Size.Width / 2);
+                //this.EndY = ScreenCheckResult2.Location.Y + (ScreenCheckResult2.Size.Height / 2);
+                this.EndX = ScreenCheckResult2.Left + ScreenCheckResult2.Width / 2;
+                this.EndY = ScreenCheckResult2.Top + ScreenCheckResult2.Height / 2;
+            }
+
             if (this.StartX == null || this.StartY == null)
             {
-                MouseControl.SendMouseLeftDrag(
+                sender.MouseLeftDrag(
                     this.EndX ?? 0,
                     this.EndY ?? 0,
                     this.ScreenNumber,
-                    this.Slow);
+                    this.Fast);
             }
             else
             {
-                MouseControl.SendMouseLeftDrag(
+                sender.MouseLeftDrag(
                     this.StartX.Value,
                     this.StartY.Value,
-                    this.EndX ?? 0,
-                    this.EndY ?? 0,
+                    this.EndX.Value,
+                    this.EndY.Value,
                     this.ScreenNumber,
-                    this.Slow);
+                    this.Fast);
             }
         }
     }

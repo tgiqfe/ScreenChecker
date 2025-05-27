@@ -6,12 +6,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ScreenChecker.Lib;
+using ScreenChecker.Lib.Mouse;
 
 namespace ScreenChecker.Cmdlet
 {
     [Cmdlet(VerbsLifecycle.Invoke, "MouseClick")]
     public class InvokeMouseClick : PSCmdlet
     {
+        [Parameter(ValueFromPipeline = true)]
+        public ScreenCheckResult[] InputScreenCheckResult { get; set; }
+
         [Parameter(Position = 0)]
         public MouseAction Action { get; set; } = MouseAction.Click;
 
@@ -28,7 +32,10 @@ namespace ScreenChecker.Cmdlet
         public int WheelDelta { get; set; }
 
         [Parameter]
-        public SwitchParameter Slow { get; set; }
+        public SwitchParameter Fast { get; set; }
+
+        [Parameter]
+        public int DoubleClickInterval { get; set; }
 
         [Parameter]
         public int Delay { get; set; } = 0;
@@ -37,27 +44,41 @@ namespace ScreenChecker.Cmdlet
         {
             if (this.Delay > 0) Thread.Sleep(this.Delay);
 
+            var sender = new MouseSender();
+
+            if (InputScreenCheckResult?.Length > 0)
+            {
+                var result = InputScreenCheckResult.Where(x => x.IsFound).OrderBy(x => x.MatchValue).FirstOrDefault();
+                if (result == null)
+                {
+                    return;
+                }
+                //this.X = result.Location.X + (result.Size.Width / 2);
+                //this.Y = result.Location.Y + (result.Size.Height / 2);
+                this.X = result.Left + result.Width / 2;
+                this.Y = result.Top + result.Height / 2;
+            }
             if (this.X != null && this.Y != null)
             {
-                MouseControl.SendMouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Slow);
+                sender.MouseMove(this.X.Value, this.Y.Value, this.ScreenNumber, this.Fast);
             }
 
             switch (this.Action)
             {
                 case MouseAction.Click:
-                    MouseControl.SendMouseLeftClick();
+                    sender.MouseLeftClick();
                     break;
                 case MouseAction.DoubleClick:
-                    MouseControl.SendMouseLeftDoubleClick();
+                    sender.MouseLeftDoubleClick(this.DoubleClickInterval);
                     break;
                 case MouseAction.RightClick:
-                    MouseControl.SendMouseRightClick();
+                    sender.MouseRightClick();
                     break;
                 case MouseAction.MiddleClick:
-                    MouseControl.SendMouseMiddleClick();
+                    sender.MouseMiddleClick();
                     break;
                 case MouseAction.Wheel:
-                    MouseControl.SendMouseWheel(this.WheelDelta);
+                    sender.MouseWheel(this.WheelDelta);
                     break;
             }
         }

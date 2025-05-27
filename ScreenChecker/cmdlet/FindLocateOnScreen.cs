@@ -11,8 +11,7 @@ namespace ScreenChecker
     public class FindLocateOnScreen : PSCmdlet
     {
         const double DEFAULT_CONFIDENCE = 0.95;
-        const int CLICK_DELAY = 100;
-
+        
         #region PowerShell parameter
 
         [Parameter(Mandatory = true, Position = 0)]
@@ -25,19 +24,7 @@ namespace ScreenChecker
         public string OutputPath { get; set; }
 
         [Parameter]
-        public SwitchParameter Move { get; set; }
-
-        [Parameter]
-        public SwitchParameter Click { get; set; }
-
-        [Parameter]
-        public SwitchParameter DoubleClick { get; set; }
-
-        [Parameter]
         public int ScreenNumber { get; set; }
-
-        [Parameter]
-        public SwitchParameter Slow { get; set; }
 
         #endregion
 
@@ -53,7 +40,9 @@ namespace ScreenChecker
         protected override void ProcessRecord()
         {
             var capture = ScreenCheck.CaptureScreen(ScreenNumber);
-            var results = this.ImagePath.Select(x => ScreenCheck.LocateOnScreen(capture, x, Confidence));
+            var results = this.ImagePath.
+                Select(x => ScreenCheck.LocateOnScreen(capture, x, Confidence)).
+                ToArray();
 
             if (!string.IsNullOrEmpty(this.OutputPath))
             {
@@ -73,29 +62,14 @@ namespace ScreenChecker
                 ScreenCheck.ImageWrite(this.OutputPath, tempOutputCapture);
             }
 
-            if (this.Move || this.Click || this.DoubleClick)
+            if(results.Length == 1)
             {
-                var maxMatchResult = results.OrderByDescending(xx => xx.MatchValue).FirstOrDefault();
-                int centerX = maxMatchResult.Location.X + maxMatchResult.Size.Width / 2;
-                int centerY = maxMatchResult.Location.Y + maxMatchResult.Size.Height / 2;
-
-                if (this.Move)
-                {
-                    MouseControl.SendMouseMove(centerX, centerY, this.ScreenNumber, this.Slow);
-                }
-                else if (this.DoubleClick)
-                {
-                    MouseControl.SendMouseMove(centerX, centerY, this.ScreenNumber, this.Slow);
-                    MouseControl.SendMouseLeftDoubleClick();
-                }
-                else if (this.Click)
-                {
-                    MouseControl.SendMouseMove(centerX, centerY, this.ScreenNumber, this.Slow);
-                    MouseControl.SendMouseLeftClick();
-                }
+                WriteObject(results[0]);
             }
-
-            WriteObject(results);
+            else
+            {
+                WriteObject(results);
+            }
         }
 
         protected override void EndProcessing()
