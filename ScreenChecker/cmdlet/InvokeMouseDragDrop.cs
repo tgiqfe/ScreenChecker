@@ -33,16 +33,32 @@ namespace ScreenChecker.Cmdlet
         {
             if (this.Delay > 0) Thread.Sleep(this.Delay);
 
+            var sender = new MouseSender();
             if (this.StartX == null || this.StartY == null)
             {
+                sender.MouseLeftDrag2(
+                    this.EndX ?? 0,
+                    this.EndY ?? 0,
+                    this.ScreenNumber,
+                    this.Fast);
+                /*
                 MouseSender.MouseLeftDrag(
                     this.EndX ?? 0,
                     this.EndY ?? 0,
                     this.ScreenNumber,
                     this.Fast);
+                */
             }
             else
             {
+                sender.MouseLeftDrag2(
+                    this.StartX.Value,
+                    this.StartY.Value,
+                    this.EndX.Value,
+                    this.EndY.Value,
+                    this.ScreenNumber,
+                    this.Fast);
+                /*
                 MouseSender.MouseLeftDrag(
                     this.StartX.Value,
                     this.StartY.Value,
@@ -50,6 +66,7 @@ namespace ScreenChecker.Cmdlet
                     this.EndY ?? 0,
                     this.ScreenNumber,
                     this.Fast);
+                */
             }
         }
     }

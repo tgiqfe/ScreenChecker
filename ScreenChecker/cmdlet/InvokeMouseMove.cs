@@ -32,7 +32,10 @@ namespace ScreenChecker.Cmdlet
         {
             if (this.Delay > 0) Thread.Sleep(this.Delay);
 
-            MouseSender.MouseMove(this.X, this.Y, this.ScreenNumber, this.Fast);
+            var sender = new MouseSender();
+            sender.MouseMove2(this.X, this.Y, this.ScreenNumber, this.Fast);
+
+            // MouseSender.MouseMove(this.X, this.Y, this.ScreenNumber, this.Fast);
         }
     }
 }
